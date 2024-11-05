@@ -6,7 +6,7 @@ package edu.seg2105.client.ui;
 import java.io.*;
 import java.util.Scanner;
 
-import edu.seg2105.client.backend.ChatClient;
+import edu.seg2105.client.*;
 import edu.seg2105.client.common.*;
 
 /**
@@ -17,6 +17,7 @@ import edu.seg2105.client.common.*;
  * @author Fran&ccedil;ois B&eacute;langer
  * @author Dr Timothy C. Lethbridge  
  * @author Dr Robert Lagani&egrave;re
+ * @version September 2020
  */
 public class ClientConsole implements ChatIF 
 {
@@ -50,12 +51,14 @@ public class ClientConsole implements ChatIF
    * @param host The host to connect to.
    * @param port The port to connect on.
    */
-  public ClientConsole(String host, int port) 
+  public ClientConsole(String host, int port, String ID) 
   {
     try 
     {
-      client= new ChatClient(host, port, this);
+      client= new ChatClient(host, port, this,ID);
       
+      client.sendToServer("logged on the server as "+ID);
+      client.sendToServer(ID+ " has logged on");
       
     } 
     catch(IOException exception) 
@@ -117,29 +120,33 @@ public class ClientConsole implements ChatIF
    */
   public static void main(String[] args) 
   {
+	String loginID = "";
     String host = "";
-    int port;  //The port number
+    int port = 0;
     
-
-
-    try
-    {
-      host = args[0];
+    if (args.length<1) {
+    	System.out.println("ERROR - No login ID specified. Connection aborted.") ;
+    	System.exit(0);
     }
-    catch(ArrayIndexOutOfBoundsException e)
-    {
-      host = "localhost";
+    
+    else {
+    	loginID=(String) args[0] ;
+    	try
+        { 
+          host = args[1];
+          port=Integer.parseInt(args[2]);
+        }
+        catch(ArrayIndexOutOfBoundsException e)
+        {
+          host = "localhost";
+          port=DEFAULT_PORT;
+        }
+        catch(NumberFormatException excp) {
+        	port=DEFAULT_PORT;
+        }
+        ClientConsole chat= new ClientConsole(host, port, loginID);
+        chat.accept();  //Wait for console data
+      }
     }
-
-    // setting up the port number so that it is taken from the command line
-    try{
-      port = Integer.parseInt(args[1]);}
-    catch(ArrayIndexOutOfBoundsException e){
-      port = DEFAULT_PORT;
-    }
-
-    ClientConsole chat= new ClientConsole(host, DEFAULT_PORT);
-    chat.accept();  //Wait for console data
-  }
 }
 //End of ConsoleChat class

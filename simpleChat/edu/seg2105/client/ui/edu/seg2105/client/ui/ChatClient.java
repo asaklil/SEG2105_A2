@@ -1,22 +1,8 @@
-// This file contains material supporting section 3.7 of the textbook:
-// "Object Oriented Software Engineering" and is issued under the open-source
-// license found at www.lloseng.com 
-
-package edu.seg2105.client.backend;
+package edu.seg2105.client.ui;
 
 import ocsf.client.*;
-
-import java.io.*;
-
 import edu.seg2105.client.common.*;
 import java.io.*;
-import java.io.*;
-
-import java.io.*;
-
-
-
-
 
 /**
  * This class overrides some of the methods defined in the abstract
@@ -196,3 +182,4 @@ public class ChatClient extends AbstractClient
 	 */
 }
 //End of ChatClient class
+
