@@ -2,7 +2,6 @@ package edu.seg2105.edu.server.backend;
 
 
 import edu.seg2105.client.common.*;
-import java.io.*;
 import java.util.Scanner;
 
 public class ServerConsole implements ChatIF {

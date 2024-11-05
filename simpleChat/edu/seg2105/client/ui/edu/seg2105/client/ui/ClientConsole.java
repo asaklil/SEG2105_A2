@@ -6,7 +6,6 @@ package edu.seg2105.client.ui;
 import java.io.*;
 import java.util.Scanner;
 
-import edu.seg2105.client.*;
 import edu.seg2105.client.common.*;
 
 /**
