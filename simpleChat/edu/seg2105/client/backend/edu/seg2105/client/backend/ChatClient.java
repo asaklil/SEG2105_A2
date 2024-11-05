@@ -67,18 +67,8 @@ public class ChatClient extends AbstractClient
    *
    * @param message The message from the UI.    
    */
-  public void handleMessageFromClientUI(String message)
+  public void handleMessageFromClientUI(String message) throws IOException
   {
-    try
-    {
-      //sendToServer(message);
-    }
-    catch(IOException e)
-    {
-      clientUI.display
-        ("Could not send message to server.  Terminating client.");
-      quit();
-    }
   }
   
   /**
@@ -93,5 +83,33 @@ public class ChatClient extends AbstractClient
     catch(IOException e) {}
     System.exit(0);
   }
+
+
+
+@Override  
+   protected void connectionClosed() {
+	   clientUI.display("The connection has been closed");
+	}
+
+	/**
+	 * Implementation of the hook method called each time an exception is thrown by the client's
+	 * thread that is waiting for messages from the server. The method may be
+	 * overridden by subclasses.
+	 * 
+	 * @param exception
+	 *            the exception raised.
+	 */
+  
+  @Override  
+	protected void connectionException(Exception exception) {
+    	 clientUI.display("The server has shut down");
+    	 System.exit(0);
+	}
+
+	/**
+	 * Implementation of the hook method called after a connection has been established. The default
+	 * implementation does nothing. It may be overridden by subclasses to do
+	 * anything they wish.
+	 */
 }
 //End of ChatClient class

@@ -4,6 +4,7 @@ package edu.seg2105.edu.server.backend;
 // license found at www.lloseng.com 
 
 
+import edu.seg2105.client.common.ChatIF;
 import ocsf.server.*;
 
 /**
@@ -23,6 +24,7 @@ public class EchoServer extends AbstractServer
    * The default port to listen on.
    */
   final public static int DEFAULT_PORT = 5555;
+  ChatIF adminUI ;
   
   //Constructors ****************************************************
   
@@ -63,26 +65,30 @@ public class EchoServer extends AbstractServer
   }
   
   /**
-   * This method overrides the one in the superclass.  Called
-   * when the server stops listening for connections.
+   * Implementation of the hook method called each time a new client connection is
+   * accepted. The default implementation does nothing.
+   * @param client the connection connected to the client.
    */
-  protected void serverStopped()
-  {
-    System.out.println
-      ("Server has stopped listening for connections.");
-  }
   
-
+  @Override
   protected void clientConnected(ConnectionToClient client) {
-    //print a nice message when a client connects
-    System.out.println("Welcome" + client);
+	  adminUI.display("New client connected to the server !") ;
+	  this.sendToAllClients("New client connected to the server !") ;
   }
 
-  protected void clientDisconnected(ConnectionToClient client) {
-    //print a nice message when a client disconnects
-    System.out.println("See you soon" + client); 
-  }
+  /**
+   * Implementation of the hook method called each time a client disconnects.
+   * The default implementation does nothing. The method
+   * may be overridden by subclasses but should remains synchronized.
+   *
+   * @param client the connection with the client.
+   */
   
+  @Override
+  synchronized protected void clientDisconnected(ConnectionToClient client) {
+	  adminUI.display("A client has been disconnected  !") ;
+	  this.sendToAllClients("A client has been disconnected !");
+  }
   //Class methods ***************************************************
   
   /**
@@ -117,4 +123,5 @@ public class EchoServer extends AbstractServer
     }
   }
 }
+
 //End of EchoServer class
